@@ -18,18 +18,40 @@
 
 	<main class="container">
 		<section class="card">
-			<h2>登录</h2>
-			<form id="loginForm" class="form">
-				<label for="email">邮箱</label>
-				<input type="email" id="email" name="email" placeholder="you@example.com" required>
-				<label for="password">密码</label>
-				<input type="password" id="password" name="password" placeholder="••••••••" required>
-				<div style="display:flex; gap:8px; flex-wrap:wrap;">
-					<button type="submit" class="btn">登录</button>
-					<button type="button" id="registerBtn" class="btn">注册</button>
-				</div>
-			</form>
-			<p class="muted">提示：本示例不包含真实后端，仅做前端演示。</p>
+			<div style="display:flex; gap:8px; margin-bottom:12px;">
+				<button id="tabLogin" class="btn" style="background:transparent; border:1px solid var(--border); color:var(--text);">登录</button>
+				<button id="tabRegister" class="btn" style="background:transparent; border:1px solid var(--border); color:var(--text);">注册</button>
+			</div>
+
+			<div id="panelLogin">
+				<h2>登录</h2>
+				<form id="loginForm" class="form">
+					<label for="email">邮箱</label>
+					<input type="email" id="email" name="email" placeholder="you@example.com" required>
+					<label for="password">密码</label>
+					<input type="password" id="password" name="password" placeholder="••••••••" required>
+					<div style="display:flex; gap:8px; flex-wrap:wrap;">
+						<button type="submit" class="btn">登录</button>
+					</div>
+				</form>
+			</div>
+
+			<div id="panelRegister" style="display:none;">
+				<h2>注册</h2>
+				<form id="registerForm" class="form">
+					<label for="regName">姓名</label>
+					<input type="text" id="regName" name="regName" placeholder="你的姓名" required>
+					<label for="regEmail">邮箱</label>
+					<input type="email" id="regEmail" name="regEmail" placeholder="you@example.com" required>
+					<label for="regPassword">密码</label>
+					<input type="password" id="regPassword" name="regPassword" placeholder="至少 6 位" required>
+					<div style="display:flex; gap:8px; flex-wrap:wrap;">
+						<button type="submit" class="btn">注册</button>
+					</div>
+				</form>
+				<p class="muted">注册成功后可能需要前往邮箱验证。</p>
+			</div>
+			<p class="muted">提示：认证由 Supabase 提供；本地训练与营养数据存储在浏览器本地。</p>
 		</section>
 
 		<section class="grid">
@@ -51,6 +73,23 @@
 	<script src="js/auth.js"></script>
 	<script>
 		document.getElementById('year').textContent = new Date().getFullYear();
+		// 标签切换
+		const tabLogin = document.getElementById('tabLogin');
+		const tabRegister = document.getElementById('tabRegister');
+		const panelLogin = document.getElementById('panelLogin');
+		const panelRegister = document.getElementById('panelRegister');
+		function showLogin() {
+			panelLogin.style.display = '';
+			panelRegister.style.display = 'none';
+		}
+		function showRegister() {
+			panelLogin.style.display = 'none';
+			panelRegister.style.display = '';
+		}
+		tabLogin.addEventListener('click', showLogin);
+		tabRegister.addEventListener('click', showRegister);
+		showLogin();
+
 		document.getElementById('loginForm').addEventListener('submit', async function (e) {
 			e.preventDefault();
 			const email = document.getElementById('email').value.trim();
@@ -58,12 +97,17 @@
 			const res = await window.FTAuth.signIn(email, password);
 			if (res) window.location.href = 'dashboard.html';
 		});
-		document.getElementById('registerBtn').addEventListener('click', async function () {
-			const email = document.getElementById('email').value.trim();
-			const password = document.getElementById('password').value;
+		document.getElementById('registerForm').addEventListener('submit', async function (e) {
+			e.preventDefault();
+			const name = document.getElementById('regName').value.trim();
+			const email = document.getElementById('regEmail').value.trim();
+			const password = document.getElementById('regPassword').value;
 			const res = await window.FTAuth.signUp(email, password);
-			// 注册成功后不强制跳转；如希望直接进入仪表盘，可取消下行注释
-			// if (res) window.location.href = 'dashboard.html';
+			if (res) {
+				alert('注册成功，请按需前往邮箱验证后再登录。');
+				showLogin();
+				document.getElementById('email').value = email;
+			}
 		});
 	</script>
 </body>
