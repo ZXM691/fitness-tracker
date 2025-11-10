@@ -1,0 +1,3 @@
+// 替换为你自己的 Supabase 项目信息
+const SUPABASE_URL = 'https://iphtwnxrvpjocmapakkt.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlwaHR3bnhydnBqb2NtYXBha2t0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2Mjc1ODA3NCwiZXhwIjoyMDc4MzM0MDc0fQ.1OqVM-MRDoTyoXoXRJc1lTr3loisTO6Bm7kI9oAewGc';

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Fitness Tracker - 仪表盘</title>
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	<header class="site-header">
+		<h1>仪表盘</h1>
+		<nav class="site-nav">
+			<a href="index.html">首页</a>
+			<a href="nutrition.html">营养记录</a>
+		</nav>
+	</header>
+
+	<main class="container">
+		<section class="grid">
+			<div class="card">
+				<h2>今日训练</h2>
+				<ul id="todayWorkouts" class="list"></ul>
+				<form id="workoutForm" class="form inline-form">
+					<input type="text" id="workoutName" placeholder="项目（如：跑步）" required>
+					<input type="number" id="workoutDuration" placeholder="分钟" min="1" required>
+					<button type="submit" class="btn">添加</button>
+				</form>
+			</div>
+
+			<div class="card">
+				<h2>统计</h2>
+				<div class="stats">
+					<div class="stat">
+						<div class="stat-value" id="totalWorkouts">0</div>
+						<div class="stat-label">总训练次数</div>
+					</div>
+					<div class="stat">
+						<div class="stat-value" id="totalMinutes">0</div>
+						<div class="stat-label">总分钟数</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<footer class="site-footer">
+		<p>© <span id="year"></span> Fitness Tracker</p>
+	</footer>
+
+	<script src="js/workouts.js"></script>
+	<script>
+		document.getElementById('year').textContent = new Date().getFullYear();
+		const listEl = document.getElementById('todayWorkouts');
+		const totalWorkoutsEl = document.getElementById('totalWorkouts');
+		const totalMinutesEl = document.getElementById('totalMinutes');
+
+		function render() {
+			const workouts = window.FTWorkouts.getToday();
+			listEl.innerHTML = '';
+			let minutes = 0;
+			workouts.forEach(w => {
+				const li = document.createElement('li');
+				li.textContent = `${w.name} — ${w.duration} 分钟`;
+				listEl.appendChild(li);
+				minutes += w.duration;
+			});
+			totalWorkoutsEl.textContent = workouts.length;
+			totalMinutesEl.textContent = minutes;
+		}
+
+		document.getElementById('workoutForm').addEventListener('submit', function (e) {
+			e.preventDefault();
+			const name = document.getElementById('workoutName').value.trim();
+			const duration = parseInt(document.getElementById('workoutDuration').value, 10);
+			if (!name || !duration) return;
+			window.FTWorkouts.add({ name, duration });
+			this.reset();
+			render();
+		});
+
+		render();
+	</script>
+</body>
+</html>
+
+

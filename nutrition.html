@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Fitness Tracker - 营养记录</title>
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	<header class="site-header">
+		<h1>营养记录</h1>
+		<nav class="site-nav">
+			<a href="index.html">首页</a>
+			<a href="dashboard.html">仪表盘</a>
+		</nav>
+	</header>
+
+	<main class="container">
+		<section class="grid">
+			<div class="card">
+				<h2>今日餐食</h2>
+				<ul id="meals" class="list"></ul>
+				<form id="mealForm" class="form inline-form">
+					<input type="text" id="mealName" placeholder="餐食（如：鸡胸肉）" required>
+					<input type="number" id="mealCalories" placeholder="卡路里" min="0" required>
+					<button type="submit" class="btn">添加</button>
+				</form>
+			</div>
+			<div class="card">
+				<h2>合计</h2>
+				<p>今日总卡路里：<strong id="totalCalories">0</strong> kcal</p>
+			</div>
+		</section>
+	</main>
+
+	<footer class="site-footer">
+		<p>© <span id="year"></span> Fitness Tracker</p>
+	</footer>
+
+	<script src="js/nutrition.js"></script>
+	<script>
+		document.getElementById('year').textContent = new Date().getFullYear();
+		const mealsEl = document.getElementById('meals');
+		const totalEl = document.getElementById('totalCalories');
+
+		function render() {
+			const meals = window.FTNutrition.getToday();
+			mealsEl.innerHTML = '';
+			let total = 0;
+			meals.forEach(m => {
+				const li = document.createElement('li');
+				li.textContent = `${m.name} — ${m.calories} kcal`;
+				mealsEl.appendChild(li);
+				total += m.calories;
+			});
+			totalEl.textContent = total;
+		}
+
+		document.getElementById('mealForm').addEventListener('submit', function (e) {
+			e.preventDefault();
+			const name = document.getElementById('mealName').value.trim();
+			const calories = parseInt(document.getElementById('mealCalories').value, 10);
+			if (!name || isNaN(calories)) return;
+			window.FTNutrition.add({ name, calories });
+			this.reset();
+			render();
+		});
+
+		render();
+	</script>
+</body>
+</html>
+
+
