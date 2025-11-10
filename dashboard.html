@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Fitness Tracker - 仪表盘</title>
 	<link rel="stylesheet" href="css/style.css">
+	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 	<header class="site-header">
@@ -47,9 +48,17 @@
 		<p>© <span id="year"></span> Fitness Tracker</p>
 	</footer>
 
+	<script src="js/auth.js"></script>
 	<script src="js/workouts.js"></script>
 	<script>
 		document.getElementById('year').textContent = new Date().getFullYear();
+		(async function () {
+			const user = await window.FTAuth.getUser();
+			if (!user) {
+				window.location.href = 'index.html';
+				return;
+			}
+		})();
 		const listEl = document.getElementById('todayWorkouts');
 		const totalWorkoutsEl = document.getElementById('totalWorkouts');
 		const totalMinutesEl = document.getElementById('totalMinutes');
