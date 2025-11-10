@@ -1,6 +1,6 @@
 // 替换为你自己的 Supabase 项目信息
 const SUPABASE_URL = 'https://iphtwnxrvpjocmapakkt.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlwaHR3bnhydnBqb2NtYXBha2t0Iiwicm9sZSIsInNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2Mjc1ODA3NCwiZXhwIjoyMDc4MzM0MDc0fQ.1OqVM-MRDoTyoXoXRJc1lTr3loisTO6Bm7kI9oAewGc';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlwaHR3bnhydnBqb2NtYXBha2t0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI3NTgwNzQsImV4cCI6MjA3ODMzNDA3NH0.q8uzk8V20ucZ5lkeK5RLbgfwVWXJPa-T5J6fGvb-2rw';
 
 (function () {
 	// 需要在页面中通过 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> 引入
