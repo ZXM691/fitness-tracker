@@ -55,15 +55,15 @@
 		const mealsEl = document.getElementById('meals');
 		const totalEl = document.getElementById('totalCalories');
 
-		function render() {
-			const meals = window.FTNutrition.getToday();
+		async function render() {
+			const meals = await window.FTNutrition.getToday();
 			mealsEl.innerHTML = '';
 			let total = 0;
 			meals.forEach(m => {
 				const li = document.createElement('li');
 				li.textContent = `${m.name} — ${m.calories} kcal`;
 				mealsEl.appendChild(li);
-				total += m.calories;
+				total += Number(m.calories || 0);
 			});
 			totalEl.textContent = total;
 		}
@@ -73,9 +73,11 @@
 			const name = document.getElementById('mealName').value.trim();
 			const calories = parseInt(document.getElementById('mealCalories').value, 10);
 			if (!name || isNaN(calories)) return;
-			window.FTNutrition.add({ name, calories });
-			this.reset();
-			render();
+			(async () => {
+				await window.FTNutrition.add({ name, calories });
+				e.target.reset();
+				await render();
+			})();
 		});
 
 		render();
