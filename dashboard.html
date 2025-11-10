@@ -66,15 +66,15 @@
 		const totalWorkoutsEl = document.getElementById('totalWorkouts');
 		const totalMinutesEl = document.getElementById('totalMinutes');
 
-		function render() {
-			const workouts = window.FTWorkouts.getToday();
+		async function render() {
+			const workouts = await window.FTWorkouts.getToday();
 			listEl.innerHTML = '';
 			let minutes = 0;
 			workouts.forEach(w => {
 				const li = document.createElement('li');
 				li.textContent = `${w.name} — ${w.duration} 分钟`;
 				listEl.appendChild(li);
-				minutes += w.duration;
+				minutes += Number(w.duration || 0);
 			});
 			totalWorkoutsEl.textContent = workouts.length;
 			totalMinutesEl.textContent = minutes;
@@ -85,9 +85,11 @@
 			const name = document.getElementById('workoutName').value.trim();
 			const duration = parseInt(document.getElementById('workoutDuration').value, 10);
 			if (!name || !duration) return;
-			window.FTWorkouts.add({ name, duration });
-			this.reset();
-			render();
+			(async () => {
+				await window.FTWorkouts.add({ name, duration });
+				e.target.reset();
+				await render();
+			})();
 		});
 
 		render();
