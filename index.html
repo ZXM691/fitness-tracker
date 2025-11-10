@@ -92,7 +92,7 @@
 			const name = document.getElementById('regName').value.trim();
 			const email = document.getElementById('regEmail').value.trim();
 			const password = document.getElementById('regPassword').value;
-			const res = await window.FTAuth.signUp(email, password);
+			const res = await window.FTAuth.signUp(email, password, name);
 			if (res) {
 				alert('注册成功，请按需前往邮箱验证后再登录。');
 				showLogin();
