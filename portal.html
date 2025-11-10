@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Fitness Tracker - 欢迎</title>
+	<link rel="stylesheet" href="css/style.css">
+	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+	<header class="site-header">
+		<h1>Fitness Tracker</h1>
+		<nav class="site-nav">
+			<a href="javascript:void(0)" id="logoutLink">退出登录</a>
+		</nav>
+	</header>
+
+	<main class="container">
+		<section class="grid">
+			<a class="card link-card" href="dashboard.html">
+				<h3>前往仪表盘 →</h3>
+				<p>查看今日训练、统计和历史记录。</p>
+			</a>
+			<a class="card link-card" href="nutrition.html">
+				<h3>记录营养摄入 →</h3>
+				<p>快速添加餐食并查看总卡路里。</p>
+			</a>
+		</section>
+	</main>
+
+	<footer class="site-footer">
+		<p>© <span id="year"></span> Fitness Tracker</p>
+	</footer>
+
+	<script src="js/auth.js"></script>
+	<script>
+		document.getElementById('year').textContent = new Date().getFullYear();
+		(async function () {
+			const user = await window.FTAuth.getUser();
+			if (!user) {
+				window.location.href = 'index.html';
+				return;
+			}
+		})();
+		document.getElementById('logoutLink').addEventListener('click', async function () {
+			await window.FTAuth.signOut();
+			window.location.href = 'index.html';
+		});
+	</script>
+</body>
+</html>
+
+
