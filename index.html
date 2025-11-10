@@ -55,12 +55,15 @@
 			e.preventDefault();
 			const email = document.getElementById('email').value.trim();
 			const password = document.getElementById('password').value;
-			await window.FTAuth.signIn(email, password);
+			const res = await window.FTAuth.signIn(email, password);
+			if (res) window.location.href = 'dashboard.html';
 		});
 		document.getElementById('registerBtn').addEventListener('click', async function () {
 			const email = document.getElementById('email').value.trim();
 			const password = document.getElementById('password').value;
-			await window.FTAuth.signUp(email, password);
+			const res = await window.FTAuth.signUp(email, password);
+			// 注册成功后不强制跳转；如希望直接进入仪表盘，可取消下行注释
+			// if (res) window.location.href = 'dashboard.html';
 		});
 	</script>
 </body>
